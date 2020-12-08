@@ -19,6 +19,8 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-
+env:
+  global:
+    - CODECOV_TOKEN="f32bb006-1821-4a3a-bedb-cdf4ba5c5d7b"
 services:
   - postgresql

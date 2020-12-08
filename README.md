@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/ZubovVP/job4j_forum.svg?branch=master)](https://travis-ci.org/ZubovVP/job4j_forum)
