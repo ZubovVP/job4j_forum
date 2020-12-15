@@ -4,7 +4,7 @@ package ru.job4j.forum.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Set;
+import javax.persistence.*;
 
 /**
  * Created by Intellij IDEA.
@@ -15,23 +15,34 @@ import java.util.Set;
  */
 @Data
 @EqualsAndHashCode
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "username")
     private String name;
+    @Column(name = "password")
     private String password;
-    private Set<Post> posts;
+    @Column(name = "enabled")
+    private boolean enabled;
+    @ManyToOne
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
 
-    public static User of(int id, String name, String password, Set<Post> posts) {
-        User user = of(name, password, posts);
+
+    public static User of(int id, String name, String password, Authority authority) {
+        User user = of(name, password, authority);
         user.id = id;
         return user;
     }
 
-    public static User of(String name, String password, Set<Post> posts) {
+    public static User of(String name, String password, Authority authority) {
         User user = new User();
         user.name = name;
         user.password = password;
-        user.posts = posts;
+        user.authority = authority;
         return user;
     }
 }

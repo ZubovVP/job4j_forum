@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <body>
-<form action="<c:url value='/update'/>" method='POST'>
+<form action="<c:url value='/updatePost'/>" method='POST'>
     <table>
         <tr>
             <td>Id:</td>

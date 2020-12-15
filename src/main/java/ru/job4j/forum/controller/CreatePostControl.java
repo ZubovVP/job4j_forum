@@ -1,12 +1,11 @@
 package ru.job4j.forum.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.forum.model.Post;
-import ru.job4j.forum.service.PostService;
+import ru.job4j.forum.service.PostServiceForRepository;
 
 
 /**
@@ -18,10 +17,10 @@ import ru.job4j.forum.service.PostService;
  */
 @Controller
 public class CreatePostControl {
-    private PostService ps;
+    private PostServiceForRepository pr;
 
-    public CreatePostControl(PostService ps) {
-        this.ps = ps;
+    public CreatePostControl(PostServiceForRepository ps) {
+        this.pr = ps;
     }
 
     @GetMapping("/createPost")
@@ -31,7 +30,7 @@ public class CreatePostControl {
 
     @PostMapping("/savePost")
     public String savePost(@ModelAttribute Post post) {
-        this.ps.add(post);
+        this.pr.save(post);
         return "redirect:/";
     }
 }

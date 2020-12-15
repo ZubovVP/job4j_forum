@@ -41,12 +41,27 @@
             <c:forEach items="${posts}" var="post">
                 <tr>
                     <td><a href="<c:url value='/post?id=${post.id}'/>"><c:out value="${post.name}"/></a></td>
-                    <td><p align="right"><a href="<c:url value='/update?id=${post.id}'/>">Update</a></p></td>
+                    <c:if test="${post.owner.name eq userName }">
+                        <td><p align="right"><a href="<c:url value='/update?id=${post.id}'/>">Update</a></p></td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>
         </table>
-        <a href="<c:url value='/createPost'/>">Создание поста</a>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="<c:url value='/createPost'/>">Создание поста</a></td>
+                <td><a href="<c:url value='/logout'/>">Выйти</a></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

@@ -28,31 +28,55 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
+    <style type="text/css">
+        textarea {
+            resize: none;
+            width: 850px;
+            height: 50px;
+        }
+    </style>
     <title>Пост</title>
 </head>
+
 <body>
 <div class="container mt-3">
     <div class="row">
-        <h4>${post.name}</h4>
+        <h4>Название: ${post.name}</h4>
     </div>
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">${post.desc}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Комментарий 1</td>
-            </tr>
-            <tr>
-                <td>Комментарий 2</td>
-            </tr>
-            </tbody>
-        </table>
-        <a href="<c:url value='/index'/>">На главную</a>
+        <h3>Описание: ${post.desc}</h3>
     </div>
+    <form action="<c:url value='/addComment'/>" method='POST'>
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Сообщение</th>
+                    <th scope="col">Автор</th>
+                    <th scope="col">Дата</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${post.comments}" var="comment">
+                    <tr>
+                        <td>${comment.comment}</td>
+                        <td>${comment.user.name}</td>
+                        <td>${comment.created.time}</td>
+                    </tr>
+                </c:forEach>
+                <tr>
+                    <td>
+                        <textarea name="text" placeholder="Оставить комментарий"></textarea>
+                        <input type="hidden" name="id" value="${post.id}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p><input name="submit" align="right" type="submit" value="Отправить"/></p>
+        </div>
+    </form>
+    <p><a href="<c:url value='/index'/>">На главную</a></p>
 </div>
 </body>
 </html>
