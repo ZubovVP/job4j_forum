@@ -7,30 +7,34 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <body>
-<form action="<c:url value='/updatePost'/>" method='POST'>
+<form:form method="POST" action="/updatePost" modelAttribute="currentPost">
     <table>
         <tr>
-            <td>Id:</td>
-            <td><input type='text' name='id' size="40" value="${post.id}" READONLY></td>
+            <td>Id :</td>
+            <td><spring:input path="id" readonly="true"/></td>
         </tr>
         <tr>
             <td>Название поста:</td>
-            <td><input type='text' name='name' size="40" value="${post.name}"></td>
+            <td><spring:input path="name"/></td>
         </tr>
         <tr>
             <td>Описание:</td>
-            <td><input type='text' name='desc' size="40" value="${post.desc}"></td>
+            <td><spring:input path="desc"/></td>
         </tr>
         <tr>
             <td>Дата создания:</td>
-            <td><input type='text' name='data' size="40" value="${stringData}" READONLY></td>
+            <td><spring:input path="created" readonly="true"/></td>
         </tr>
         <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Готово"/></td>
+            <td colspan='2'><spring:button>Submit</spring:button></td>
         </tr>
+        <spring:hidden path="owner"/>
+        <spring:hidden path="comments"/>
     </table>
-</form>
+</form:form>
 </body>
 </html>

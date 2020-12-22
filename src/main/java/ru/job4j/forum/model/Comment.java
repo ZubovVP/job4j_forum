@@ -2,6 +2,7 @@ package ru.job4j.forum.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -24,10 +25,11 @@ public class Comment {
     private int id;
     @Column(name = "comment")
     private String comment;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "created")
     private Calendar created;
-    @ManyToOne
-    @JoinColumn(name = "id_post")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_post", nullable = false)
     private Post post;
     @ManyToOne
     @JoinColumn(name = "id_user")
@@ -41,5 +43,10 @@ public class Comment {
         com.post = post;
         com.user = user;
         return com;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" + "id=" + id + ", comment='" + comment + '\'' + ", created=" + created + '}';
     }
 }

@@ -6,10 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Comment;
-import ru.job4j.forum.model.Post;
 import ru.job4j.forum.model.User;
 
-import java.util.Calendar;
 import java.util.Optional;
 
 import static joptsimple.internal.Strings.isNullOrEmpty;
@@ -30,33 +28,21 @@ public class CommentService implements CrudRepository<Comment, Integer> {
     @Autowired
     @Qualifier("userRepository")
     private CrudRepository<User, Integer> ur;
-    @Autowired
-    @Qualifier("postRepository")
-    private CrudRepository<Post, Integer> pr;
 
     @Override
     public <S extends Comment> S save(S s) {
         checkUser(s);
-        checkCreated(s);
-        checkComment(s);
-        if (s.getPost() != null && s.getPost().getId() != 0) {
-            s = this.cr.save(s);
-            Post post = this.pr.findById(s.getPost().getId()).get();
-            post.getComments().add(s);
-            this.pr.save(post);
-        } else {
+        if (!checkComment(s) || s.getPost() == null || s.getPost().getId() == 0) {
             throw new NullPointerException(s.toString() + "Id of post or is null");
         }
-        return s;
+        return this.cr.save(s);
     }
 
     @Override
     public <S extends Comment> Iterable<S> saveAll(Iterable<S> iterable) {
         for (Comment comment : iterable) {
             checkUser(comment);
-            checkCreated(comment);
-            checkComment(comment);
-            if (comment.getPost() == null || comment.getPost().getId() == 0) {
+            if (!checkComment(comment) || comment.getPost() == null || comment.getPost().getId() == 0) {
                 throw new NullPointerException(comment.toString() + "Id of post or is null");
             }
         }
@@ -139,13 +125,6 @@ public class CommentService implements CrudRepository<Comment, Integer> {
     private <S extends Comment> S checkUser(S comment) {
         if (comment.getUser() == null || comment.getUser().getId() == 0) {
             comment = fillUser(comment);
-        }
-        return comment;
-    }
-
-    private <S extends Comment> S checkCreated(S comment) {
-        if (comment.getCreated() == null) {
-            comment.setCreated(Calendar.getInstance());
         }
         return comment;
     }

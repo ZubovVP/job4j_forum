@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import ru.job4j.forum.model.Authority;
 import ru.job4j.forum.model.User;
 import ru.job4j.forum.repository.AutohorityRepository;
 
@@ -31,25 +30,20 @@ public class UserServiceForRepository implements CrudRepository<User, Integer> {
 
     @Override
     public <S extends User> S save(S s) {
-        S result;
         if (checkNameAndPassword(s)) {
-            if (s.getAuthority() == null || s.getAuthority().getId() == 0) {
-                Authority authority = this.ar.findByName("ROLE_USER");
-                s.setAuthority(authority);
+            if (s.getAuthority().getId() == 0) {
+                s.setAuthority(this.ar.findByName(s.getAuthority().getAuthority()));
             }
-            result = this.ur.save(s);
-        } else {
-            throw new NullPointerException(s.toString() + " Name or password is null");
-
         }
-        return result;
+        return this.ur.save(s);
     }
 
     @Override
     public <S extends User> Iterable<S> saveAll(Iterable<S> iterable) {
         for (User user : iterable) {
-            if (!checkNameAndPassword(user)) {
-                throw new NullPointerException(user.toString() + " Name or password is null");
+            checkNameAndPassword(user);
+            if (user.getAuthority().getId() == 0) {
+                user.setAuthority(this.ar.findByName(user.getAuthority().getAuthority()));
             }
         }
         return this.ur.saveAll(iterable);
@@ -111,7 +105,10 @@ public class UserServiceForRepository implements CrudRepository<User, Integer> {
     }
 
     private boolean checkNameAndPassword(User element) {
-        return !isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getPassword());
+        if (isNullOrEmpty(element.getName()) || isNullOrEmpty(element.getPassword())) {
+            throw new NullPointerException(element.toString() + " Name or password is null");
+        }
+        return true;
     }
 
     private void checkId(Integer id) {

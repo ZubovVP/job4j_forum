@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.job4j.forum.model.Authority;
 import ru.job4j.forum.model.User;
 import ru.job4j.forum.service.UserServiceForRepository;
 
@@ -31,6 +32,7 @@ public class RegControl {
     public String save(@ModelAttribute User user) {
         user.setEnabled(true);
         user.setPassword(this.encoder.encode(user.getPassword()));
+        user.setAuthority(Authority.of(0, "ROLE_USER"));
         us.save(user);
         return "redirect:/login";
     }

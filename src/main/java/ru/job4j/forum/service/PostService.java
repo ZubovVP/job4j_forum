@@ -26,28 +26,29 @@ public class PostService implements MainActions<Post> {
 
     @Override
     public Post add(Post element) {
-        Post result = null;
         if (element.getCreated() == null) {
             element.setCreated(Calendar.getInstance());
         }
-        if (!isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getDesc())) {
-            result = this.ps.add(element);
+        if (isNullOrEmpty(element.getName()) || isNullOrEmpty(element.getDesc()) || element.getOwner() == null) {
+            throw new NullPointerException(element.toString() + " Name or description or owner is null");
         }
-        return result;
-
+        return this.ps.add(element);
     }
 
 
     @Override
     public void update(Post element) {
-        Post post = this.ps.findById(element.getId());
-        post.setDesc(element.getDesc());
-        post.setName(element.getName());
-        this.ps.update(post);
+        if (isNullOrEmpty(element.getName()) || isNullOrEmpty(element.getDesc()) || element.getId() <= 0 || element.getOwner() == null) {
+            throw new NullPointerException(element.toString() + " Name or description or owner is null or id wrong");
+        }
+        this.ps.update(element);
     }
 
     @Override
     public void delete(Post element) {
+        if (element.getId() <= 0) {
+            throw new NullPointerException(element.toString() + " - Wrong id");
+        }
         this.ps.delete(element);
     }
 
@@ -57,6 +58,9 @@ public class PostService implements MainActions<Post> {
 
     @Override
     public Post findById(int id) {
+        if (id <= 0) {
+            throw new NullPointerException(id + " - Wrong id");
+        }
         return this.ps.findById(id);
     }
 }

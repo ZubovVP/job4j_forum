@@ -1,11 +1,15 @@
 package ru.job4j.forum.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.forum.model.Post;
+import ru.job4j.forum.model.User;
 import ru.job4j.forum.service.PostServiceForRepository;
+
+import java.util.Calendar;
 
 
 /**
@@ -30,6 +34,8 @@ public class CreatePostControl {
 
     @PostMapping("/savePost")
     public String savePost(@ModelAttribute Post post) {
+        post.setCreated(Calendar.getInstance());
+        post.setOwner(User.of(SecurityContextHolder.getContext().getAuthentication().getName(), null, null));
         this.pr.save(post);
         return "redirect:/";
     }

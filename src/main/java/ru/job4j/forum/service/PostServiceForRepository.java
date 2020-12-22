@@ -3,12 +3,10 @@ package ru.job4j.forum.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.model.User;
 
-import java.util.Calendar;
 import java.util.Optional;
 
 import static joptsimple.internal.Strings.isNullOrEmpty;
@@ -34,7 +32,6 @@ public class PostServiceForRepository implements CrudRepository<Post, Integer> {
     @Override
     public <S extends Post> S save(S s) {
         s = checkOwner(s);
-        checkCreated(s);
         checkNameAndDescr(s);
         return this.ps.save(s);
     }
@@ -43,7 +40,6 @@ public class PostServiceForRepository implements CrudRepository<Post, Integer> {
     public <S extends Post> Iterable<S> saveAll(Iterable<S> iterable) {
         for (Post post : iterable) {
             post = checkOwner(post);
-            checkCreated(post);
             checkNameAndDescr(post);
         }
         return this.ps.saveAll(iterable);
@@ -113,22 +109,20 @@ public class PostServiceForRepository implements CrudRepository<Post, Integer> {
         this.ps.deleteAll();
     }
 
-    private boolean checkNameAndDescr(Post element) {
-        if (!isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getDesc())) {
-            return true;
+    private void checkNameAndDescr(Post element) {
+        if (isNullOrEmpty(element.getName()) || isNullOrEmpty(element.getDesc())) {
+            throw new NullPointerException(element.toString() + " Name or desc is null");
         }
-        throw new NullPointerException(element.toString() + " Name or desc is null");
     }
 
     private <S extends Post> S fillOwner(S post) {
-        String nameOfOwner = SecurityContextHolder.getContext().getAuthentication().getName();
         for (User user : this.ur.findAll()) {
-            if (user.getName().equals(nameOfOwner)) {
+            if (user.getName().equals(post.getOwner().getName())) {
                 post.setOwner(user);
             }
         }
-        if (post.getOwner() == null || post.getOwner().getId() == 0) {
-            throw new NullPointerException("Don't have user with this name - " + nameOfOwner);
+        if (post.getOwner() == null) {
+            throw new NullPointerException("Don't have user with this name - " + post.getOwner().getName());
         }
         return post;
     }
@@ -136,13 +130,6 @@ public class PostServiceForRepository implements CrudRepository<Post, Integer> {
     private <S extends Post> S checkOwner(S post) {
         if (post.getOwner() == null || post.getOwner().getId() == 0) {
             post = fillOwner(post);
-        }
-        return post;
-    }
-
-    private <S extends Post> S checkCreated(S post) {
-        if (post.getCreated() == null) {
-            post.setCreated(Calendar.getInstance());
         }
         return post;
     }

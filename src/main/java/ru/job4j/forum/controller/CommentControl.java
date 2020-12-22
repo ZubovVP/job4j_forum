@@ -9,6 +9,8 @@ import ru.job4j.forum.model.Comment;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.service.CommentService;
 
+import java.util.Calendar;
+
 /**
  * Created by Intellij IDEA.
  * User: Vitaly Zubov.
@@ -26,7 +28,7 @@ public class CommentControl {
 
     @PostMapping("/addComment")
     public String addComment(@RequestParam("text") String comment, @ModelAttribute("post") Post post) {
-        this.cs.save(Comment.of(0, comment, null, post, null));
+        this.cs.save(Comment.of(0, comment, Calendar.getInstance(), post, null));
         return "redirect:/post?id=" + post.getId();
     }
 }
