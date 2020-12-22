@@ -50,4 +50,10 @@ public class Post {
         return post;
     }
 
+    public static Post of(int id, String name, String desc, Calendar created, User owner, List<Comment> commetns) {
+        Post post = of(id, name, desc, created, owner);
+        post.comments = commetns;
+        return post;
+    }
+
 }
