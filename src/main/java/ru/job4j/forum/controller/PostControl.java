@@ -2,10 +2,7 @@ package ru.job4j.forum.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.service.PostServiceForRepository;
 
@@ -24,8 +21,8 @@ public class PostControl {
         this.posts = posts;
     }
 
-    @GetMapping("/update")
-    public String update(@RequestParam("id") int id, Model model) {
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String update(@PathVariable("id") Integer id, Model model) {
         Post post = this.posts.findById(id).get();
         model.addAttribute("currentPost", post);
         return "edit";
@@ -37,8 +34,8 @@ public class PostControl {
         return "redirect:/";
     }
 
-    @GetMapping("/post")
-    public String post(@RequestParam("id") int id, Model model) {
+    @RequestMapping(value = "/post/{id}", method = RequestMethod.GET)
+    public String post(@PathVariable("id") Integer id, Model model) {
         Post post = this.posts.findById(id).get();
         model.addAttribute("currentPost", post);
         return "post";

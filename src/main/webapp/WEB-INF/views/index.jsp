@@ -40,9 +40,9 @@
             <tbody>
             <c:forEach items="${posts}" var="post">
                 <tr>
-                    <td><a href="<c:url value='/post?id=${post.id}'/>"><c:out value="${post.name}"/></a></td>
+                    <td><a href="<c:url value='/post/${post.id}'/>"><c:out value="${post.name}"/></a></td>
                     <c:if test="${post.owner.name eq userName }">
-                        <td><p align="right"><a href="<c:url value='/update?id=${post.id}'/>">Update</a></p></td>
+                        <td><p align="right"><a href="<c:url value='/update/${post.id}'/>">Update</a></p></td>
                     </c:if>
                 </tr>
             </c:forEach>

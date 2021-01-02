@@ -60,4 +60,8 @@ public class Post {
         return post;
     }
 
+    @Override
+    public String toString() {
+        return "Post{" + "id=" + id + ", name='" + name + '\'' + ", desc='" + desc + '\'' + ", created=" + created + '}';
+    }
 }
