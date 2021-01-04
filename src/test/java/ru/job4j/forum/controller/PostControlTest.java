@@ -1,10 +1,9 @@
 package ru.job4j.forum.controller;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.forum.Main;
@@ -18,9 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import org.junit.After;
-import org.junit.Before;
 
 import java.util.Calendar;
 
@@ -44,47 +40,36 @@ class PostControlTest {
     private User user;
     private Post post;
 
-    @Before
+
+    @BeforeEach
     public void start() {
-        System.out.println("START");
+        user = User.of("name", "password", Authority.of(1, ""));
+        post = Post.of(0, "name", "decs", Calendar.getInstance(), user);
+        user = usr.save(user);
+        post = pfr.save(post);
     }
 
-    @After
+    @AfterEach
     public void finish() {
-        System.out.println("Finish");
+        pfr.delete(post);
+        usr.delete(user);
     }
 
     @Test
     @WithMockUser
     void shouldReturnDefaultFormForUpdatePost() throws Exception {
-        creatUserAndPost();
         this.mockMvc.perform(get("/update/{id}", this.post.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit"));
-        deletePostAndUser();
     }
 
     @Test
     @WithMockUser
     void shouldReturnDefaultPostMessage() throws Exception {
-        creatUserAndPost();
         this.mockMvc.perform(get("/post/{id}", this.post.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("post"));
-        deletePostAndUser();
-    }
-
-    private void creatUserAndPost() {
-        this.user = User.of("name", "password", Authority.of(1, ""));
-        this.user = this.usr.save(this.user);
-        this.post = Post.of(0, "name", "decs", Calendar.getInstance(), user);
-        this.post = this.pfr.save(this.post);
-    }
-
-    private void deletePostAndUser() {
-        this.pfr.delete(this.post);
-        this.usr.delete(this.user);
     }
 }
