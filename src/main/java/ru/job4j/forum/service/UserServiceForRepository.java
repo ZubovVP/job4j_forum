@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.User;
-import ru.job4j.forum.repository.AutohorityRepository;
+import ru.job4j.forum.repository.AuthorityRepository;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public class UserServiceForRepository implements CrudRepository<User, Integer> {
     @Qualifier("userRepository")
     private CrudRepository<User, Integer> ur;
     @Autowired
-    private AutohorityRepository ar;
+    private AuthorityRepository ar;
 
 
     @Override

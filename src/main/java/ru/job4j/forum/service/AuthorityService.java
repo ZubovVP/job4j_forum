@@ -3,7 +3,7 @@ package ru.job4j.forum.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.forum.model.Authority;
-import ru.job4j.forum.repository.AutohorityRepository;
+import ru.job4j.forum.repository.AuthorityRepository;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import static joptsimple.internal.Strings.isNullOrEmpty;
 @Service
 public class AuthorityService {
     @Autowired
-    private AutohorityRepository ar;
+    private AuthorityRepository ar;
 
     public Authority save(Authority authority) {
         if (isNullOrEmpty(authority.getAuthority())) {
