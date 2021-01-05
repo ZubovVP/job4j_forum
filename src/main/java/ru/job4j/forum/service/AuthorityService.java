@@ -43,7 +43,7 @@ public class AuthorityService {
         this.ar.delete(id);
     }
 
-    private List<Authority> findAll() {
+    public List<Authority> findAll() {
         return this.ar.findAll();
     }
 }

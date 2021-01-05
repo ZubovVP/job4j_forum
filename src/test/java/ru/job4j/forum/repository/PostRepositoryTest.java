@@ -36,7 +36,6 @@ class PostRepositoryTest {
         this.user = User.of("name", "password", Authority.of(1, ""));
         this.post = Post.of(0, "name", "decs", Calendar.getInstance(), this.user);
         this.usr.save(this.user);
-
     }
 
     @AfterEach

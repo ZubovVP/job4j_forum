@@ -57,6 +57,7 @@ public class CommentService implements CrudRepository<Comment, Integer> {
 
     @Override
     public boolean existsById(Integer integer) {
+        checkId(integer);
         return this.cr.existsById(integer);
     }
 
@@ -101,7 +102,7 @@ public class CommentService implements CrudRepository<Comment, Integer> {
 
     @Override
     public void deleteAll() {
-        this.deleteAll();
+        this.cr.deleteAll();
     }
 
     private boolean checkComment(Comment element) {

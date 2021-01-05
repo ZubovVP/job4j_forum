@@ -96,12 +96,12 @@ public class UserServiceForRepository implements CrudRepository<User, Integer> {
         for (User user : iterable) {
             checkId(user.getId());
         }
-        this.deleteAll(iterable);
+        this.ur.deleteAll(iterable);
     }
 
     @Override
     public void deleteAll() {
-        this.deleteAll();
+        this.ur.deleteAll();
     }
 
     private boolean checkNameAndPassword(User element) {
