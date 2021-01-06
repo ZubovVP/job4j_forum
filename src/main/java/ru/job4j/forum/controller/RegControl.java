@@ -20,7 +20,7 @@ import ru.job4j.forum.service.UserServiceForRepository;
  */
 @Controller
 public class RegControl {
-    private UserServiceForRepository us;
+    private final UserServiceForRepository us;
     private PasswordEncoder encoder = new BCryptPasswordEncoder();
 
 

@@ -21,7 +21,7 @@ import java.util.Calendar;
  */
 @Controller
 public class CreatePostControl {
-    private PostServiceForRepository pr;
+    private final PostServiceForRepository pr;
 
     public CreatePostControl(PostServiceForRepository ps) {
         this.pr = ps;

@@ -9,52 +9,40 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.forum.Main;
-import ru.job4j.forum.model.Post;
-import ru.job4j.forum.service.PostServiceForRepository;
+import ru.job4j.forum.model.Comment;
+import ru.job4j.forum.service.CommentService;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
  * Created by Intellij IDEA.
  * User: Vitaly Zubov.
  * Email: Zubov.VP@yandex.ru.
  * Version: $Id$.
- * Date: 02.01.2021.
+ * Date: 06.01.2021.
  */
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
-class CreatePostControlTest {
+class CommentControlTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private PostServiceForRepository psfr;
-
-
-    @Test
-    @WithMockUser
-    void shouldReturnDefaultFormForCreatePostMessage() throws Exception {
-        this.mockMvc.perform(get("/createPost"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("createPost"));
-    }
+    private CommentService commentService;
 
     @Test
     @WithMockUser
-    void shouldReturnPost() throws Exception {
-        this.mockMvc.perform(post("/savePost")
-                .param("name", "Post"))
+    void shouldReturnComment() throws Exception {
+        this.mockMvc.perform(post("/addComment")
+                .param("text", "Comment."))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
-        ArgumentCaptor<Post> argument = ArgumentCaptor.forClass(Post.class);
-        verify(psfr).save(argument.capture());
-        assertThat(argument.getValue().getName(), is("Post"));
+        ArgumentCaptor<Comment> argument = ArgumentCaptor.forClass(Comment.class);
+        verify(commentService).save(argument.capture());
+        assertThat(argument.getValue().getComment(), is("Comment."));
     }
 }

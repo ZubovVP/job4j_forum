@@ -15,46 +15,35 @@ import ru.job4j.forum.service.PostServiceForRepository;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
  * Created by Intellij IDEA.
  * User: Vitaly Zubov.
  * Email: Zubov.VP@yandex.ru.
  * Version: $Id$.
- * Date: 02.01.2021.
+ * Date: 06.01.2021.
  */
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
-class CreatePostControlTest {
+class PostControlTestForPostMethods {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private PostServiceForRepository psfr;
-
-
-    @Test
-    @WithMockUser
-    void shouldReturnDefaultFormForCreatePostMessage() throws Exception {
-        this.mockMvc.perform(get("/createPost"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("createPost"));
-    }
+    private PostServiceForRepository pfr;
 
     @Test
     @WithMockUser
     void shouldReturnPost() throws Exception {
-        this.mockMvc.perform(post("/savePost")
-                .param("name", "Post"))
+        this.mockMvc.perform(post("/updatePost")
+                .param("name", "Update post"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
         ArgumentCaptor<Post> argument = ArgumentCaptor.forClass(Post.class);
-        verify(psfr).save(argument.capture());
-        assertThat(argument.getValue().getName(), is("Post"));
+        verify(pfr).save(argument.capture());
+        assertThat(argument.getValue().getName(), is("Update post"));
     }
+
 }

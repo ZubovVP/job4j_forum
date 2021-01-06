@@ -43,16 +43,16 @@ class PostControlTest {
 
     @BeforeEach
     public void start() {
-        user = User.of("name", "password", Authority.of(1, ""));
-        post = Post.of(0, "name", "decs", Calendar.getInstance(), user);
-        user = usr.save(user);
-        post = pfr.save(post);
+        this.user = User.of(0, "name", "password", Authority.of(1, ""));
+        this.user = usr.save(this.user);
+        this.post = Post.of(0, "name", "decs", Calendar.getInstance(), this.user);
+        this.post = pfr.save(this.post);
     }
 
     @AfterEach
     public void finish() {
-        pfr.delete(post);
-        usr.delete(user);
+        this.pfr.delete(this.post);
+        this.usr.delete(this.user);
     }
 
     @Test
