@@ -29,6 +29,7 @@ class UserServiceForRepositoryTest {
 
     @BeforeEach
     void start() {
+        this.userServiceForRepository.deleteAll();
         this.user = User.of("name", "password", Authority.of(1, ""));
     }
 
