@@ -14,10 +14,9 @@ services:
 before_install:
   - psql -c "CREATE DATABASE job4j_forum;" -U postgres
 
-
 env:
   global:
-    - CODECOV_TOKEN="f32bb006-1821-4a3a-bedb-cdf4ba5c5d7b"
+    - CODECOV_TOKEN="525c307e-6ff8-4069-a107-cef83940f231"
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
