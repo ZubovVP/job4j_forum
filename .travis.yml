@@ -6,8 +6,7 @@ jdk:
 sudo: false
 
 install: true
-script:
-  - mvn install
+script: mvn clean package -DskipTests=true
 services:
   - postgresql
 
@@ -29,3 +28,8 @@ notifications:
       - zubovvp@yandex.ru
     on_success: never # default: change
     on_failure: always # default: always
+    deploy:
+      provider: heroku
+      api_key:
+        secure: HARnqpRvMCC/HJRIf/vPzfW9OS5Z2vyf98DvzcIezKKfGrUhqLV5hUBFM+dsT6Ej8OAy9EaR0pOVkiBUCzWYvbUuzC0s1XW6A+48EFh2eP7Ytw5dyQEpzMzy2DAfDaXWH6Hm8sPGRaRtXC1UHsc7VEzvf5dNKu7PLgQrXoU3KRuPyNbSMWOrEw7Y0JPLbgYEzc3tUh7/JhCNget/yx1+Be776TdjiTNyoPzPHylKvkFQAMiSbzCIP4IfURP2fpIkbg6qfKdWyj8AozShOzTSyh2NxKNu2/P2iiCK0UZt9DeziJnxFL4T5kwWQeuN9cSVCCNIlgjiVODMRRQ/8VAjP90PBSmalBuKeavZ4AUXfs+R+gk2KF3HbW/Oqm6TjQ9Qzgdh2OPTHQPSfeGubtecat4Rr0oM37y5fs4tKsGU7EIiteHCZDLtf+5/lbJrdFbdf163EFny2pdjWaLkpKmz66MvEhCf0W0jOJ95orBiBn3IU661Pilc9+M7ewr1hG7S8OYQ5KjPMM+ZVdZki53M0vWlti4HwwQZUY0sljNVHueheXg0A+a1PAgxefB2O4k3q3hHxIbJpC0RKk3MZ+Bgycm2BTi3OvTeWryuGmzO0s5ZIBWtIWigwYXilDEGULp84vqy9UD7m7pZUgvUFnJY2bpUtyun99db7W534Vgpwto=
+      app: fierce-savannah-03918
