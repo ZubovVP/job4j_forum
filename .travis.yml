@@ -26,10 +26,10 @@ notifications:
   email:
     recipients:
       - zubovvp@yandex.ru
-    on_success: never # default: change
-    on_failure: always # default: always
-    deploy:
-      provider: heroku
-      api_key:
-        secure: lB2XdX849LBdeVjto4Aj1BHOP8hFngSeVBrC7eStKiYx2ZS6UFg12xoorihyDllsCGLN7CCeNrCNb4zXOUoyxC/l/Pgltr3tuM7EyNh6xvPXJGi9KlFbUpMZubVAXjw8ryaIhR7kNRxbvr1fNX9LN6TPNRLynTyxgCH0Dt5Ng87b5FJV+ueB1wdjh78070nEst06dZVd+f+Wjpz4nB9fI271MAtut76+EH4t+5FVXnPSCJxru6harxuAuTD3Z/4MXU3uosXe7lkZUr74wKA/YNIKC2Uf9zzQ9YVXwQTQeDekLVXok8lCNaj1Q8FE0P/pfKoUj0iU0LvJNcUIeoXWccX+9Df4yXklYQIEm283rDFYAIkoo1pDjvh63mx61lsZRFb3/JYMfnDOkHvoCOHP+MsK13obH32czkJPfuTLH3DWoB0HNTjQoTRfsSu68MeSXBpPSTjMIfDyQgyWnK9i16SwOJ8eLT7bHp2NVF+QegqnPOPRkbYP+ZxtXCV3UwJO11/w62roDEEE9IMQqhFVJKxwLv618tHYWB9U1qBgQ2xvg0MWXv/oiTsLwah0wywlrAF72sdhwb0KL4RYHBGTnAxfWOLsTaAqR6RNAD0dKj0y7ThqedFeJAIdEO9JdopjauFPUzAVsu731QY0xkLbirKrQYwH5uGGZoVh5aNTpMU=
-          app: fierce-savannah-03918
+    on_success: never
+    on_failure: always
+deploy:
+  provider: heroku
+  api_key:
+    secure: lB2XdX849LBdeVjto4Aj1BHOP8hFngSeVBrC7eStKiYx2ZS6UFg12xoorihyDllsCGLN7CCeNrCNb4zXOUoyxC/l/Pgltr3tuM7EyNh6xvPXJGi9KlFbUpMZubVAXjw8ryaIhR7kNRxbvr1fNX9LN6TPNRLynTyxgCH0Dt5Ng87b5FJV+ueB1wdjh78070nEst06dZVd+f+Wjpz4nB9fI271MAtut76+EH4t+5FVXnPSCJxru6harxuAuTD3Z/4MXU3uosXe7lkZUr74wKA/YNIKC2Uf9zzQ9YVXwQTQeDekLVXok8lCNaj1Q8FE0P/pfKoUj0iU0LvJNcUIeoXWccX+9Df4yXklYQIEm283rDFYAIkoo1pDjvh63mx61lsZRFb3/JYMfnDOkHvoCOHP+MsK13obH32czkJPfuTLH3DWoB0HNTjQoTRfsSu68MeSXBpPSTjMIfDyQgyWnK9i16SwOJ8eLT7bHp2NVF+QegqnPOPRkbYP+ZxtXCV3UwJO11/w62roDEEE9IMQqhFVJKxwLv618tHYWB9U1qBgQ2xvg0MWXv/oiTsLwah0wywlrAF72sdhwb0KL4RYHBGTnAxfWOLsTaAqR6RNAD0dKj0y7ThqedFeJAIdEO9JdopjauFPUzAVsu731QY0xkLbirKrQYwH5uGGZoVh5aNTpMU=
+  app: fierce-savannah-03918
