@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
@@ -22,6 +23,11 @@ public class AuthApplication {
         liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
         liquibase.setDataSource(ds);
         return liquibase;
+    }
+
+    @Bean
+    public RestTemplate getTemplate() {
+        return new RestTemplate();
     }
 
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
