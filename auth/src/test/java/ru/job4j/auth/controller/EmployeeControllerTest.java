@@ -1,23 +1,29 @@
 package ru.job4j.auth.controller;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 import ru.job4j.auth.AuthApplication;
+import ru.job4j.auth.domain.Employee;
 import ru.job4j.auth.domain.Person;
-import ru.job4j.auth.repository.PersonRepository;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 /**
  * Created by Intellij IDEA.
@@ -28,62 +34,51 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 
 @SpringBootTest(classes = AuthApplication.class)
+@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 class EmployeeControllerTest {
+    private Person prs = Person.of(1, "NamePerson", "123");
+    @Mock
+    private RestTemplate restTemplate;
+
     @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private PersonRepository pr;
-    private Gson gson = new Gson();
+    ObjectMapper objectMapper;
 
+    @InjectMocks
+    private EmployeeController empController;
 
-    @Ignore
-    void shouldReturnAllEmployees() throws Exception {
-        this.mockMvc.perform(get("/employee/"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    @Test
+    void shouldReturnAllEmployees() {
+        Employee empl = Employee.of(1, "EmpName", "EmpSurname", 123, new Timestamp(System.currentTimeMillis()), this.prs);
+        List<Person> persons = new ArrayList<>();
+        persons.add(this.prs);
+        Mockito
+                .when(this.restTemplate.exchange("http://localhost:8080/person/",
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Person>>() {
+                        }))
+                .thenReturn((new ResponseEntity(persons, HttpStatus.OK)));
+        List<Employee> employees = this.empController.findAll();
+        Assert.assertEquals(employees.get(0).getPerson(), List.of(empl).get(0).getPerson());
     }
 
-    @Ignore
-    void shouldUpdatePersonAndGetFromDB() throws Exception {
-        Person person = this.pr.findById(2).get();
-        person.setLogin("ban2");
-        String json = this.gson.toJson(person);
-        this.mockMvc.perform(put("/employee/").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isOk());
-        MvcResult result = this.mockMvc.perform(get("/person/{id}", person.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().json(json)).andReturn();
-        String newPersonResult = result.getResponse().getContentAsString();
-        person = (this.gson.fromJson(newPersonResult, Person.class));
-        Assert.assertThat(person.getLogin(), is("ban2"));
+    @Test
+    void createPersonAndGetThisPerson() {
+        Mockito
+                .when(this.restTemplate.postForObject("http://localhost:8080/person/", this.prs, Person.class))
+                .thenReturn(this.prs);
+        Person personCreated = this.empController.create(this.prs).getBody();
+        Assert.assertEquals(personCreated, this.prs);
     }
 
-
-    @Ignore
-    void shouldCreatePersonAndGetFromDB() throws Exception {
-        Person newPerson = Person.of(0, "TestName", "TestPassword");
-        MvcResult result = this.mockMvc.perform(post("/employee/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newPerson)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.login").value(newPerson.getLogin()))
-                .andExpect(jsonPath("$.password").value(newPerson.getPassword())).andReturn();
-        String newPersonResult = result.getResponse().getContentAsString();
-          newPerson.setId(this.gson.fromJson(newPersonResult, Person.class).getId());
-        Assert.assertThat(newPerson, is(this.pr.findById(newPerson.getId()).get()));
-        this.mockMvc.perform(delete("/person/{id}", newPerson.getId()));
+    @Test
+    void updatePersonShouldStatusOk() {
+        Mockito.doNothing().when(this.restTemplate).put("http://localhost:8080/person/", this.prs);
+        Assert.assertThat(this.empController.update(this.prs).getStatusCode().toString(), is("200 OK"));
     }
 
-    @Ignore
-    void shouldDeletePersonFromDB() throws Exception {
-        Person newPerson = Person.of(0, "TestName", "TestPassword");
-        MvcResult result = this.mockMvc.perform(post("/employee/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newPerson)))
-                .andExpect(status().isCreated())
-                .andReturn();
-        String newPersonResult = result.getResponse().getContentAsString();
-        newPerson.setId(this.gson.fromJson(newPersonResult, Person.class).getId());
-        this.mockMvc.perform(delete("/employee/{id}", newPerson.getId()));
-        Assert.assertFalse(this.pr.findById(newPerson.getId()).isPresent());
+    @Test
+    void deletePersonShouldStatusOk() {
+        Mockito.doNothing().when(this.restTemplate).delete("http://localhost:8080/person/{id}", prs.getId());
+        Assert.assertThat(this.empController.update(this.prs).getStatusCode().toString(), is("200 OK"));
     }
-
 }
