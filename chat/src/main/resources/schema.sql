@@ -1,7 +1,7 @@
 CREATE TABLE roles
 (
   id   serial primary key not null,
-  name VARCHAR(255)       not null
+  name VARCHAR(255)      UNIQUE not null
 );
 
 CREATE TABLE persons

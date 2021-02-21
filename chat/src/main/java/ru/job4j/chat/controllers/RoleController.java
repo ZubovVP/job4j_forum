@@ -45,7 +45,7 @@ private final RoleRepository rr;
     }
 
     @PostMapping("/")
-    public ResponseEntity<Role> create(@ModelAttribute Role role) {
+    public ResponseEntity<Role> create(@RequestBody Role role) {
         return new ResponseEntity<Role>(
                 this.rr.save(role),
                 HttpStatus.CREATED

@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Intellij IDEA.

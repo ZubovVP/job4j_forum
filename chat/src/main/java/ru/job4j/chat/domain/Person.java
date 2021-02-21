@@ -30,7 +30,6 @@ public class Person {
     private String surname;
     @Column(name = "password")
     private String password;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created")
     private Long created;
     @Column(name = "enabled")
