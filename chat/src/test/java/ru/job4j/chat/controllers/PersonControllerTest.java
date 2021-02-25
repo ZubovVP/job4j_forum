@@ -81,6 +81,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldUpdatePersonAndGetFromDB() throws Exception {
         Person person = this.pr.findById(1).get();
         person.setLogin("ban2");
@@ -95,6 +96,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldCreatePerson() throws Exception {
         Person newPerson = Person.of("TestLogin", "TestName", "TestSurname", "123", true, Role.of(1, "ROLE_USER"), new HashSet<>());
         MvcResult result = this.mockMvc.perform(post("/person/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newPerson)))
@@ -109,6 +111,7 @@ class PersonControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldDeletePersonFromDB() throws Exception {
         Person newPerson = Person.of("TestLogin", "TestName", "TestSurname", "123", true, Role.of(1, "ROLE_USER"), new HashSet<>());
         MvcResult result = this.mockMvc.perform(post("/person/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newPerson)))

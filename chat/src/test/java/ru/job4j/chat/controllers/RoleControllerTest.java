@@ -78,6 +78,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldUpdateRoleAndGetFromDB() throws Exception {
         Role role = this.rr.findById(1).get();
         role.setName("TestName");
@@ -93,6 +94,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldCreateRole() throws Exception {
         Role newRole =  Role.of("ROLE_TEST");
         MvcResult result = this.mockMvc.perform(post("/role/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRole)))
@@ -106,6 +108,7 @@ class RoleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldDeleteRoleFromDB() throws Exception {
         Role newRole =  Role.of("ROLE_TEST");
         MvcResult result = this.mockMvc.perform(post("/role/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRole)))

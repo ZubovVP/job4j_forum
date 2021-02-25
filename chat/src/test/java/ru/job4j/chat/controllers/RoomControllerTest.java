@@ -92,6 +92,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldAddRoomGetAndUpdateRoomAndGetFromDB() throws Exception {
         Room newRoom = Room.of("Room", "TestDescription", null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
@@ -111,6 +112,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldCreateRole() throws Exception {
         Room newRoom = Room.of("Room", "TestDescription", null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
@@ -124,6 +126,7 @@ class RoomControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldDeleteRoleFromDB() throws Exception {
         Room newRoom = Room.of("Room", "TestDescription", null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
