@@ -21,7 +21,7 @@ public class ChatApplication extends SpringBootServletInitializer {
     @Bean
     public SpringLiquibase liquibase(@Qualifier("dataSource") DataSource ds) {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
+        liquibase.setChangeLog("classpath:liquibase/liquibase-changeLog.xml");
         liquibase.setDataSource(ds);
         return liquibase;
     }

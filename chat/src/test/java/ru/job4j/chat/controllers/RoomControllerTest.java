@@ -50,7 +50,7 @@ class RoomControllerTest {
     @Test
     @WithMockUser
     void shouldReturnJSONFile() throws Exception {
-        Room newRoom = Room.of("TestName", "TestDescription", null);
+        Room newRoom = Room.of("TestName", "TestDescription", null, null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(newRoom.getName())).andReturn();
@@ -74,7 +74,7 @@ class RoomControllerTest {
     @Test
     @WithMockUser
     void shouldReturnRoleUseId() throws Exception {
-        Room newRoom = Room.of("TestName", "TestDescription", null);
+        Room newRoom = Room.of("TestName", "TestDescription", null, null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(newRoom.getName())).andReturn();
@@ -94,7 +94,7 @@ class RoomControllerTest {
     @Test
     @WithMockUser
     void shouldAddRoomGetAndUpdateRoomAndGetFromDB() throws Exception {
-        Room newRoom = Room.of("Room", "TestDescription", null);
+        Room newRoom = Room.of("Room", "TestDescription", null, null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(newRoom.getName())).andReturn();
@@ -114,7 +114,7 @@ class RoomControllerTest {
     @Test
     @WithMockUser
     void shouldCreateRole() throws Exception {
-        Room newRoom = Room.of("Room", "TestDescription", null);
+        Room newRoom = Room.of("Room", "TestDescription", null, null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(newRoom.getName())).andReturn();
@@ -128,7 +128,7 @@ class RoomControllerTest {
     @Test
     @WithMockUser
     void shouldDeleteRoleFromDB() throws Exception {
-        Room newRoom = Room.of("Room", "TestDescription", null);
+        Room newRoom = Room.of("Room", "TestDescription", null, null);
         MvcResult result = this.mockMvc.perform(post("/room/").contentType(MediaType.APPLICATION_JSON).content(this.gson.toJson(newRoom)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(newRoom.getName())).andReturn();

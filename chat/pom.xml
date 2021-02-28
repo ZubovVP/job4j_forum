@@ -18,10 +18,6 @@
         <maven.compiler.target>14</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>5.1.2.RELEASE</spring.version>
-        <db.url>jdbc:postgresql://127.0.0.1:5432/job4j_chat</db.url>
-        <db.driver>org.postgresql.Driver</db.driver>
-        <db.username>postgres</db.username>
-        <db.password>password</db.password>
     </properties>
     <dependencies>
         <dependency>

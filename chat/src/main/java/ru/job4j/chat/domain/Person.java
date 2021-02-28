@@ -1,10 +1,16 @@
 package ru.job4j.chat.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -22,27 +28,37 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "login")
     private String login;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "surname")
     private String surname;
+
     @Column(name = "password")
     private String password;
+
+    @CreatedDate
     @Column(name = "created")
     private Long created;
+
     @Column(name = "enabled")
     private boolean enabled;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_room",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id"))
+            joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"))
     private Set<Room> rooms;
+
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "person")
