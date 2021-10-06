@@ -1,8 +1,6 @@
 package ru.job4j.forum.service;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +12,11 @@ import ru.job4j.forum.model.Authority;
 import ru.job4j.forum.model.Comment;
 import ru.job4j.forum.model.Post;
 import ru.job4j.forum.model.User;
-import ru.job4j.forum.repository.CommentRepository;
-import ru.job4j.forum.repository.PostRepository;
-import ru.job4j.forum.repository.UserRepository;
+
 
 import java.util.Calendar;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 /**
  * Created by Intellij IDEA.
@@ -138,6 +133,7 @@ public class CommentServiceTest {
         this.commentService.delete(this.comment);
         Assert.assertFalse(this.commentService.findAll().iterator().hasNext());
     }
+
     @Test
     void testDeleteElementIdIsZeroShouldException() {
         Assertions.assertThrows(NullPointerException.class, () -> {

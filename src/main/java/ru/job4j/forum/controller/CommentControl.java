@@ -29,6 +29,6 @@ public class CommentControl {
     @PostMapping("/addComment")
     public String addComment(@RequestParam("text") String comment, @ModelAttribute("post") Post post) {
         this.cs.save(Comment.of(0, comment, Calendar.getInstance(), post, null));
-        return "redirect:/post?id=" + post.getId();
+        return "redirect:/post/" + post.getId();
     }
 }

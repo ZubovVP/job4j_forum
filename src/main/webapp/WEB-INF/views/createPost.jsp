@@ -46,7 +46,7 @@
                 <td><input type='text' name='desc' size="40"></td>
             </tr>
             <tr>
-                <td colspan='2'><input name="submit" type="submit" value="submit"/></td>
+                <td colspan='2'><input name="submit" type="submit" value="Создать пост"/></td>
             </tr>
 
         </table>
