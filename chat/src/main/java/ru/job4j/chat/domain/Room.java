@@ -1,10 +1,12 @@
 package ru.job4j.chat.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Intellij IDEA.
@@ -14,9 +16,9 @@ import java.util.List;
  * Date: 14.02.2021.
  */
 @Data
-@EqualsAndHashCode
 @Entity
 @Table(name = "rooms")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +29,10 @@ public class Room {
 
     @Column(name = "description")
     private String description;
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)
     private List<Person> persons;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "room")
@@ -50,5 +52,20 @@ public class Room {
         Room room = of(name, description, persons, messages);
         room.setId(id);
         return room;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return id == room.id &&
+                Objects.equals(name, room.name) &&
+                Objects.equals(description, room.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }

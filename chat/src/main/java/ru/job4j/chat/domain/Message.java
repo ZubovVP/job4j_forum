@@ -1,12 +1,12 @@
 package ru.job4j.chat.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by Intellij IDEA.
@@ -16,9 +16,9 @@ import java.util.Date;
  * Date: 14.02.2021.
  */
 @Data
-@EqualsAndHashCode
 @Entity
 @Table(name = "messages")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +48,18 @@ public class Message {
         Message message = Message.of(text, created, person, room);
         message.setId(id);
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return id == message.id && Objects.equals(text, message.text) && Objects.equals(created, message.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, created);
     }
 }

@@ -1,16 +1,12 @@
 package ru.job4j.chat.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -21,9 +17,9 @@ import java.util.Set;
  * Date: 14.02.2021.
  */
 @Data
-@EqualsAndHashCode
 @Entity
 @Table(name = "persons")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +34,7 @@ public class Person {
     @Column(name = "surname")
     private String surname;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -47,18 +44,17 @@ public class Person {
 
     @Column(name = "enabled")
     private boolean enabled;
-
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "person_room",
             joinColumns = @JoinColumn(name = "person_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "room_id", referencedColumnName = "id"))
     private Set<Room> rooms;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.EAGER,
             mappedBy = "person")
@@ -85,20 +81,23 @@ public class Person {
     }
 
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", password='" + password + '\'' +
-                ", created=" + created +
-                ", enabled=" + enabled +
-                ", role=" + role +
-                ", messages=" + messages +
-                '}';
-    }
     // CHECKSTYLE:ON
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Person person = (Person) o;
+        return id == person.id && Objects.equals(login, person.login) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(password, person.password) && Objects.equals(created, person.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, name, surname, password, created);
+    }
 }
