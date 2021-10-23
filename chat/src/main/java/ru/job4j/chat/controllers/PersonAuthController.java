@@ -46,6 +46,6 @@ public class PersonAuthController {
     public List<Person> findAll() {
         return StreamSupport.stream(
                 this.persons.findAll().spliterator(), false
-        ).collect(Collectors.toList());
+        ).peek(person -> person.setPassword("****")).collect(Collectors.toList());
     }
 }

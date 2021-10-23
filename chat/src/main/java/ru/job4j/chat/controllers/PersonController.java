@@ -29,10 +29,11 @@ public class PersonController {
 
     @GetMapping("/")
     public List<Person> findAll() {
-        return StreamSupport.stream(
+        List<Person> result = StreamSupport.stream(
                 this.persons.findAll().spliterator(), false
-        ).collect(Collectors.toList());
-    }
+        ).peek(person -> person.setPassword("****")).collect(Collectors.toList());
+        return result;
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable int id) {

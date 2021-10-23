@@ -34,7 +34,6 @@ public class Person {
     @Column(name = "surname")
     private String surname;
 
-    @JsonIgnore
     @Column(name = "password")
     private String password;
 

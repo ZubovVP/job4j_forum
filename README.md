@@ -37,13 +37,13 @@
 В качестве изучения основных принципов для работы со Spring Boot с использованием RESTFull архитектуры было разработано классическое приложение - чат.
 Для того, чтобы была возможность использовать данное приложение, необходимо пройти регистрацию или авторизацию. Без регистрации доступ к чату будет заблокирован.   
 ![запрет](chat/src/main/resources/images/forbidden.png)  
-Регистрация пользователя происходит по Post запросу http://localhost:8080/sing-up.  
-![запрет](chat/src/main/resources/images/reg.png)   
+Регистрация пользователя происходит по Post запросу http://localhost:8080/persons/sing-up.  
+![регистрация](chat/src/main/resources/images/reg.png)   
 Авторизация в Rest приложения настроена через JWT token. Получение токена происходит по Post запросу http://localhost:8080/login.     
-![запрет](chat/src/main/resources/images/login_post.png)    
+![авторизация](chat/src/main/resources/images/login_post.png)    
 После добавления токена в header запроса, будет доступен полный функционал данного приложения. Можно запросить список всех зарегистрированных пользователей(пароль пользователей умышленно не предоставляется всем пользователям).    
-![запрет](chat/src/main/resources/images/get_all_repsons.png)   
+![все_пользователи](chat/src/main/resources/images/get_all_repsons.png)   
 Пользователю доступно создавать новые комнаты для общения, а также возможность доступно оставлять свои сообщения в уже существующих комнатах.   
-![запрет](chat/src/main/resources/images/create_message.png)   
+![создание_письма](chat/src/main/resources/images/create_message.png)   
 
 
